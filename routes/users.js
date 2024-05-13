@@ -2,21 +2,21 @@
 const usersRouter = require('express').Router();
 
 // Импортируем вспомогательные функции
-const {findAllUsers, createUser, findUserById, updateUser, deleteUser, checkEmptyNameAndEmail, checkIsUserExists, checkEmptyNameAndEmailAndPassword} = require('../middlewares/users');
+const {findAllUsers, createUser, findUserById, updateUser, deleteUser, checkEmptyNameAndEmail, checkIsUserExists, checkEmptyNameAndEmailAndPassword, hashPassword} = require('../middlewares/users');
 const {sendAllUsers, sendUserCreated, sendUserById, sendUserUpdated, sendUserDeleted} = require('../controllers/users');
 
 // Обрабатываем GET-запрос с роутом '/users'
 usersRouter.get('/users', findAllUsers, sendAllUsers);
 
 usersRouter.post(
-    "/users",
-    findAllUsers,
-    checkIsUserExists,
-    checkEmptyNameAndEmailAndPassword,
-    createUser,
-    sendUserCreated
-  );
-  
+  "/users",
+  findAllUsers,
+  checkIsUserExists,
+  checkEmptyNameAndEmailAndPassword,
+  hashPassword,
+  createUser,
+  sendUserCreated
+); 
  usersRouter.get('/users/:id', findUserById, sendUserById);
 
  usersRouter.put(

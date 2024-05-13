@@ -4,18 +4,23 @@
 const games = require("../models/game");
 
 const findAllGames = async (req, res, next) => {
-  // По GET-запросу на эндпоинт /games найдём все документы категорий
-  // и с помощью метода populate запросим данные о связанных
-  // категориях и пользователях
+  // Поиск всех игр в проекте по заданной категории
+  if(req.query["categories.name"]) { 
+    req.gamesArray = await games.findGameByCategory(req.query["categories.name"]);
+    next();
+    return;
+  }
+  // Поиск всех игр в проекте
   req.gamesArray = await games
     .find({})
     .populate("categories")
     .populate({
-          path: "users",
-          select: "-password"
-        });
+      path: "users",
+      select: "-password" // Исключим данные о паролях пользователей
+    })
   next();
-}; 
+};
+ 
 
 const createGame = async (req, res, next) => {
   console.log("POST /games");
