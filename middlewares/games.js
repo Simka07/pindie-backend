@@ -84,10 +84,13 @@ const checkEmptyFields = async (req, res, next) => {
     res.setHeader("Content-Type", "application/json");
         res.status(400).send(JSON.stringify({ message: "Заполни все поля" }));
   } else {
-    // Если всё в порядке, то передадим управление следующим миддлварам
-    next();
-  }
-}; 
+    if (req.isVoteRequest) {
+      next();
+      return;
+      }
+      next();
+      }
+      }; 
 
 const checkIfCategoriesAvaliable = async (req, res, next) => {
   // Проверяем наличие жанра у игры
@@ -95,9 +98,13 @@ if (!req.body.categories || req.body.categories.length === 0) {
   res.setHeader("Content-Type", "application/json");
       res.status(400).send(JSON.stringify({ message: "Выбери хотя бы одну категорию" }));
 } else {
-  next();
-}
-}; 
+  if (req.isVoteRequest) {
+    next();
+    return;
+    }
+    next();
+    }
+    };
 
 // Файл middlewares/games.js
 
@@ -131,6 +138,14 @@ const checkIsGameExists = async (req, res, next) => {
   }
 }; 
 
+const checkIsVoteRequest = async (req, res, next) => {
+  // Если в запросе присылают только поле users
+if (Object.keys(req.body).length === 1 && req.body.users) {
+  req.isVoteRequest = true;
+}
+next();
+}; 
+
 // Экспортируем функцию поиска всех игр
 module.exports = {
   findAllGames,
@@ -141,5 +156,6 @@ module.exports = {
   checkEmptyFields,
   checkIfCategoriesAvaliable,
   checkIfUsersAreSafe,
-  checkIsGameExists
+  checkIsGameExists,
+  checkIsVoteRequest
 }

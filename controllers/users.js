@@ -1,3 +1,7 @@
+const sendMe = (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(req.user));
+}; 
 const sendAllUsers = (req, res) => {
     // Установим заголовок ответа в формате JSON
   res.setHeader('Content-Type', 'application/json');
@@ -32,5 +36,6 @@ module.exports =
   sendUserCreated,
   sendUserById,
   sendUserUpdated,
-  sendUserDeleted
+  sendUserDeleted,
+  sendMe,
 }
