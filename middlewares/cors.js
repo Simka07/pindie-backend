@@ -1,8 +1,8 @@
 const allowedCors = [
     'http://localhost:3000',
     'http://localhost:3001',
-    "https://front-pindie-web.nomoredomainswork.ru/api",
-    "https://pindie-web.nomoredomainswork.ru/api",
+    "https://front-pindie-web.nomoredomainswork.ru",
+    "https://pindie-web.nomoredomainswork.ru",
   ];
   
   // Функция, которая принимает объекты req (информация о запросе),
